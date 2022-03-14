@@ -3,8 +3,12 @@ var startButton = document.getElementById("start-quiz");
 var submitButton = document.getElementById("submit");
 
 var index = 0;
-var time = 20;
+var time = 60;
 var timerInterval;
+var playerScore = 0;
+//get previos scores 
+var previousScores = JSON.parse(localStorage.getItem("scorecard")) || []; 
+console.log(previousScores);
 //Quiz Start here 
 function showStuff() {
     //show quiz Section 
@@ -45,6 +49,7 @@ function rightWrongAns() {
     var buttonValue = this.textContent;
     if (quizList[index].answer === buttonValue) {
         document.getElementById("text").textContent = "Correct Answer!";
+        playerScore = playerScore + 10; 
     } else {
         document.getElementById("text").textContent = "Wrong Answer!";
         //10 seconds peanlity 
@@ -58,6 +63,7 @@ function rightWrongAns() {
     if (index === quizList.length) {
         //game over 
         document.getElementById("end-screen").style.display = "block";
+        document.getElementById("quiz-screen").style.display="none";
         //stop the clock 
         clearInterval(timerInterval);
     } else {
@@ -84,8 +90,33 @@ function clockCountdown() {
 }
 
 //adding the score to local storage
-//function addScore() {
+function addScore() {
+    //grab score
+    var playerName = document.getElementById("initials").value;
+    var playerInfo = {
+        name: playerName,
+        score: playerScore,
+    }
+    console.log(playerInfo), previousScores;
+    //append the new playerInfo to the previous score list 
+    previousScores.push(playerInfo) 
+    localStorage.setItem("scorecard", JSON.stringify(previousScores));
+    console.log(previousScores);
+    //Navigate to the highscores.html 
+    window.location.href = "highscores.html";
+}
 
-//}
-//Add Event lIstener 
+function displayScores() {
+    // var highScores = document.getElementById("highscores");
+    // highScores.textContent = previousScores;
+    var text = "";
+    previousScores.forEach(myFunction);
+    document.getElementById("listItems").innerHTML = text;
+    function myFunction(item, index) {
+        text += index + ": " + item + "<br>"; 
+      }
+
+}
+//Add Event listener 
 startButton.addEventListener("click", showStuff);
+submitButton.addEventListener("click", addScore); 
