@@ -20,9 +20,9 @@ var quizList = [{
         answer: "Javascript"
     },
     {
-        question: "Which function",
-        options: ["Pizza", "veggies", "onions", "olives"],
-        answer: "olives"
+        question: "Which JS built in function returns the function that created this object's instance? ",
+        options: ["constructor()", "toFixed()", "toString()", "valueOf()"],
+        answer: "constructor()"
     },
 
 ];
